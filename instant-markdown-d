@@ -32,6 +32,7 @@ Usage: instant-markdown-d [OPTIONS]
 
 Options:
   --mathjax          Enable MathJax parsing
+  --mermaid          Enable mermaid diagrams
   --browser BROWSER  Use a custom browser
   --port PORT        Use a custom port (default: 8090)
   --debug            Be verbose and do not open browser
@@ -72,6 +73,7 @@ let md = new MarkdownIt({
 }).use(taskLists);
 
 if (argv.mathjax) md.use(require('markdown-it-mathjax')());
+if (argv.mermaid) md.use(require('markdown-it-mermaid')['default']);
 
 const mjPageConfig = {
   format: ["TeX"],

@@ -59,3 +59,9 @@ $$
 1+2 =3
 \end{align}
 
+# Flowcharts
+
+```mermaid
+graph LR
+    Start --> Stop
+```
