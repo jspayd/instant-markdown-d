@@ -73,7 +73,7 @@ let md = new MarkdownIt({
 }).use(taskLists);
 
 if (argv.mathjax) md.use(require('markdown-it-mathjax')());
-if (argv.mermaid) md.use(require('markdown-it-mermaid')['default']);
+if (argv.mermaid) md.use(require('markdown-it-mermaid-halo')['default']);
 
 const mjPageConfig = {
   format: ["TeX"],
