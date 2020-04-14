@@ -59,6 +59,9 @@ $$
 1+2 =3
 \end{align}
 
+# MathJax config macros
+We believe that $\P \ne \NP$.
+
 # Flowcharts
 
 ```mermaid

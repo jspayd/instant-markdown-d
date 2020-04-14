@@ -16,7 +16,7 @@ const server = require('http').createServer(httpHandler),
 const mjpage = require('mathjax-node-page').mjpage;
 const taskLists = require('markdown-it-task-lists');
 const argv = require('minimist')(process.argv.slice(2), {
-  string: ['browser'],
+  string: ['browser', 'mathjax_config'],
   default: {port: 8090, debug: false},
   alias: {V: 'version', h: 'help'},
 });
@@ -31,13 +31,14 @@ if (argv.help) {
 Usage: instant-markdown-d [OPTIONS]
 
 Options:
-  --mathjax          Enable MathJax parsing
-  --mermaid          Enable mermaid diagrams
-  --browser BROWSER  Use a custom browser
-  --port PORT        Use a custom port (default: 8090)
-  --debug            Be verbose and do not open browser
-  -V, --version      Display version
-  -h, --help         Display help\
+  --mathjax              Enable MathJax parsing
+  --mermaid              Enable mermaid diagrams
+  --browser BROWSER      Use a custom browser
+  --port PORT            Use a custom port (default: 8090)
+  --mathjax_config FILE  Use a custom MathJax configuration
+  --debug                Be verbose and do not open browser
+  -V, --version          Display version
+  -h, --help             Display help\
   `);
 }
 if (argv.version || argv.help) process.exit(0);
@@ -75,9 +76,17 @@ let md = new MarkdownIt({
 if (argv.mathjax) md.use(require('markdown-it-mathjax')());
 if (argv.mermaid) md.use(require('markdown-it-mermaid-halo')['default']);
 
+let mathjaxConfig;
+if (argv.mathjax_config) {
+  mathjaxConfig = JSON.parse(fs.readFileSync(argv.mathjax_config, 'utf8'));
+} else {
+  mathjaxConfig = {};
+}
+
 const mjPageConfig = {
   format: ["TeX"],
   cssInline: false,
+  MathJax: mathjaxConfig,
 };
 
 if (process.env.INSTANT_MARKDOWN_MATHJAX_FONTS) {
