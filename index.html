@@ -30,9 +30,9 @@
     var socket = io.connect('http://'+ window.location.host +'/');
     socket.on('connect', function () {
       setDisconnected(false);
-      socket.on('newContent', function(newHTML) {
+      socket.on('newContent', function(newHTML, renderMermaid) {
         document.querySelector(".markdown-body").innerHTML = newHTML;
-        mermaid.init();
+        if (renderMermaid) mermaid.init();
 
         // scroll to the hyperlink with id="marker"
         let marker = document.getElementById("marker");

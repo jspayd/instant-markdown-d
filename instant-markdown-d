@@ -102,7 +102,7 @@ const mjNodeConfig = {
 };
 
 function mathJaxRenderEmit(newHtml) {
-  if(argv.mathjax) {
+  if (argv.mathjax) {
     mjpage(
       newHtml,
       mjPageConfig,
@@ -113,12 +113,12 @@ function mathJaxRenderEmit(newHtml) {
             // console.log(data); // resulting HTML string
             fs.writeFileSync('debug.html', data, 'utf-8'); // debug
           }
-          io.sockets.emit('newContent', data);
+          io.sockets.emit('newContent', data, argv.mermaid);
       }
     );
   }
   else {
-    io.sockets.emit('newContent', newHtml)
+    io.sockets.emit('newContent', newHtml, argv.mermaid);
   }
 }
 
@@ -228,7 +228,7 @@ function httpHandler(req, res) {
 io.sockets.on('connection', function(sock){
   process.stdout.write('connection established!');
   if (lastWrittenMarkdown) {
-    sock.emit('newContent', lastWrittenMarkdown);  // Quick preview
+    sock.emit('newContent', lastWrittenMarkdown, argv.mermaid);  // Quick preview
     if (argv.mathjax) mathJaxRenderEmit(lastWrittenMarkdown);
   }
 });
